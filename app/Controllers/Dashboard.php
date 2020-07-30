@@ -27,7 +27,20 @@ class Dashboard extends BaseController
 
     public function uploadPost()
     {
+        helper(["url", "form"]);
+        $validation = \Config\Services::validation();
+
+        $validation->setRule("title", "title", "required");
+
         if ($_POST) {
+            if (!$validation->withRequest($this->request)->run()) {
+                //form validation error
+                $errors = $validation->getErrors();
+                print_r($errors);
+            } else {
+                //form validation succes
+                echo "Enviado exitosamente!";
+            }
             $file = $this->request->getFile("banner");
             $filename = $file->getRandomName();
             if ($file->isValid()) {
