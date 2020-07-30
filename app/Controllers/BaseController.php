@@ -37,6 +37,7 @@ class BaseController extends Controller
 		parent::initController($request, $response, $logger);
 
 		helper('operaciones');
+		helper('views');
 
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.
