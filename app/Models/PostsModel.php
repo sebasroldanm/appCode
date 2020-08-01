@@ -15,6 +15,7 @@ class PostsModel extends Model
     protected $allowedFields = [
         "banner",
         "title",
+        "slug",
         "intro",
         "content",
         "category",
