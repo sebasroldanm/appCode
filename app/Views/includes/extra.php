@@ -5,97 +5,72 @@
         <div class="row">
 
             <div class="col-seven md-six tab-full popular">
-                <h3>Popular Posts</h3>
+                <h3>Posts Anclados</h3>
 
                 <div class="block-1-2 block-m-full popular__posts">
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="<?= base_url() ?>/assets/images/thumbs/small/tulips-150.jpg" alt="">
-                        </a>
-                        <h5>10 Interesting Facts About Caffeine.</h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-14">Jun 14, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="<?= base_url() ?>/assets/images/thumbs/small/wheel-150.jpg" alt="">
-                        </a>
-                        <h5><a href="#0">Visiting Theme Parks Improves Your Health.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="<?= base_url() ?>/assets/images/thumbs/small/shutterbug-150.jpg" alt="">
-                        </a>
-                        <h5><a href="#0">Key Benefits Of Family Photography.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="<?= base_url() ?>/assets/images/thumbs/small/cookies-150.jpg" alt="">
-                        </a>
-                        <h5><a href="#0">Absolutely No Sugar Oatmeal Cookies.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0"> John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="<?= base_url() ?>/assets/images/thumbs/small/beetle-150.jpg" alt="">
-                        </a>
-                        <h5><a href="#0">Throwback To The Good Old Days.</a></h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
-                    <article class="col-block popular__post">
-                        <a href="#0" class="popular__thumb">
-                            <img src="<?= base_url() ?>/assets/images/thumbs/small/salad-150.jpg" alt="">
-                        </a>
-                        <h5>Healthy Mediterranean Salad Recipes</h5>
-                        <section class="popular__meta">
-                            <span class="popular__author"><span>By</span> <a href="#0"> John Doe</a></span>
-                            <span class="popular__date"><span>on</span> <time datetime="2018-06-12">Jun 12, 2018</time></span>
-                        </section>
-                    </article>
+
+                    <?php
+
+                    $db = \Config\Database::connect();
+                    $query = $db->query("SELECT * FROM posts WHERE show_home = 1");
+                    $result = $query->getResult();
+
+                    foreach ($result as $value) {
+                        # code...
+
+                    ?>
+
+
+                        <article class="col-block popular__post">
+                            <a href="<?= base_url() ?>/dashboar/post/<?= $value->slug . '/' . $value->id ?>" class="popular__thumb">
+                                <img src="<?= base_url() ?>/uploads/<?= $value->banner ?>" alt="">
+                            </a>
+                            <h5><?= $value->title ?></h5>
+                            <section class="popular__meta">
+                                <span class="popular__author"><span>By</span> <a href="#0">John Doe</a></span>
+                                <span class="popular__date"><span>on</span> <time datetime="<?= $value->created_at ?>"><?= date('d-m-Y', strtotime($value->created_at)) ?></time></span>
+                            </section>
+                        </article>
+                    <?php
+
+                    }
+                    ?>
+
                 </div> <!-- end popular_posts -->
             </div> <!-- end popular -->
 
             <div class="col-four md-six tab-full end">
                 <div class="row">
                     <div class="col-six md-six mob-full categories">
-                        <h3>Categories</h3>
-
+                        <h3>Categorias</h3>
                         <ul class="linklist">
-                            <li><a href="#0">Lifestyle</a></li>
-                            <li><a href="#0">Travel</a></li>
-                            <li><a href="#0">Recipes</a></li>
-                            <li><a href="#0">Management</a></li>
-                            <li><a href="#0">Health</a></li>
-                            <li><a href="#0">Creativity</a></li>
+
+                            <?php
+                            $db = \Config\Database::connect();
+                            $query = $db->query("SELECT * FROM categories");
+                            $result = $query->getResult();
+
+                            foreach ($result as $value) {
+
+                            ?>
+                                <li><a href="<?= base_url() ."/dashboard/category/". $value->id?> "><?= $value->name ?></a></li>
+                            <?php
+                            }
+                            ?>
                         </ul>
+
+
                     </div> <!-- end categories -->
 
                     <div class="col-six md-six mob-full sitelinks">
-                        <h3>Site Links</h3>
+                        <h3>Enlaces del Sitio</h3>
 
                         <ul class="linklist">
-                            <li><a href="#0">Home</a></li>
-                            <li><a href="#0">Blog</a></li>
-                            <li><a href="#0">Styles</a></li>
-                            <li><a href="#0">About</a></li>
-                            <li><a href="#0">Contact</a></li>
-                            <li><a href="#0">Privacy Policy</a></li>
+                            <li><a href="<?= base_url() ?>">Home</a></li>
+                            <li><a href="<?= base_url() ?>/dashboard/blog">Blog</a></li>
+                            <li><a href="#0">Acerca de nosotros</a></li>
+                            <li><a href="#0">Contacto</a></li>
+                            <li><a href="#0">Política de Privacidad</a></li>
                         </ul>
                     </div> <!-- end sitelinks -->
                 </div>

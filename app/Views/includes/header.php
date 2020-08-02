@@ -3,7 +3,7 @@
 
 <head>
 
-<!-- Java Script
+    <!-- Java Script
     ================================================== -->
     <script src="<?= base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
     <script src="<?= base_url() ?>/assets/js/plugins.js"></script>
@@ -92,25 +92,25 @@
             <h2 class="header__nav-heading h6">Navigate to</h2>
 
             <ul class="header__nav">
-                <li class="current"><a href="index.html" title="">Home</a></li>
+                <li class="current"><a href="<?= base_url() ?>" title="">Home</a></li>
                 <li class="has-children">
-                    <a href="#0" title="">Categories</a>
+                    <a href="#0" title="">Categorias</a>
                     <ul class="sub-menu">
-                        <li><a href="category.html">Lifestyle</a></li>
-                        <li><a href="category.html">Health</a></li>
-                        <li><a href="category.html">Family</a></li>
-                        <li><a href="category.html">Management</a></li>
-                        <li><a href="category.html">Travel</a></li>
-                        <li><a href="category.html">Work</a></li>
+
+                        <?php
+                        $db = \Config\Database::connect();
+                        $query = $db->query("SELECT * FROM categories");
+                        $result = $query->getResult();
+
+                        foreach ($result as $value) {
+                            echo '<li><a href="' . base_url() . '/dashboard/categories/' . $value->id . '">' . $value->name . '</a></li>';
+                        }
+                        ?>
+
                     </ul>
                 </li>
-                <li class="has-children">
-                    <a href="#0" title="">Blog</a>
-                    <ul class="sub-menu">
-                        <li><a href="single-video.html">Video Post</a></li>
-                        <li><a href="single-audio.html">Audio Post</a></li>
-                        <li><a href="single-standard.html">Standard Post</a></li>
-                    </ul>
+                <li class="">
+                    <a href="<?= base_url() ?>/dashboard/blog" title="">Blog</a>
                 </li>
                 <li><a href="style-guide.html" title="">Styles</a></li>
                 <li><a href="page-about.html" title="">About</a></li>

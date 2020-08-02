@@ -73,7 +73,7 @@ class Dashboard extends BaseController
                 $file = $this->request->getFile("banner");
                 $filename = $file->getRandomName();
                 if ($file->isValid()) {
-                    $file->move(WRITEPATH . "uploads", $filename);
+                    $file->move(ROOTPATH . "public/uploads", $filename);
                     $_POST['banner'] = $filename;
                     $_POST['slug'] = url_title($_POST['title']);
                     $_POST['created_at'] = date('Y-m-d');
