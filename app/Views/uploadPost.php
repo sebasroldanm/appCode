@@ -4,7 +4,7 @@
             <form action="" method="post" enctype="multipart/form-data">
                 <input placeholder="Titulo" type="text" name="title">
                 <input placeholder="Intro" type="text" name="intro">
-                <textarea placeholder="Contenido" name="content"></textarea>
+                <textarea placeholder="Contenido" id="summernote" name="content"></textarea>
                 <select name="category">
                     <?php
                     foreach ($categories as $value) {
@@ -19,3 +19,10 @@
         </div>
     </div>
 </section>
+
+
+<script>
+    $(document).ready(function() {
+        $('#summernote').summernote();
+    });
+</script>

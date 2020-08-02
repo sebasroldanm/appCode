@@ -70,7 +70,6 @@ class Dashboard extends BaseController
                 $data['error'] = true;
                 dd($errors);
             } else {
-                echo "entro";
                 $file = $this->request->getFile("banner");
                 $filename = $file->getRandomName();
                 if ($file->isValid()) {
