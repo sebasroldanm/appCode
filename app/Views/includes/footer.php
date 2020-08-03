@@ -23,11 +23,11 @@
                  <p>Sit vel delectus amet officiis repudiandae est voluptatem. Tempora maxime provident nisi et fuga et enim exercitationem ipsam. Culpa consequatur occaecati.</p>
 
                  <div class="subscribe-form">
-                     <form action="<?= base_url() ?>/Dashboard/add_newsletter" method="POST" class="group" novalidate="true">
+                     <form method="POST" id="newstter_form" class="group" novalidate="true">
 
-                         <input type="email" value="" name="email" class="email" id="email" placeholder="Email Address" required="">
+                         <input type="email" value="" name="email" class="email" id="newsletter-input" placeholder="Email Address" required="">
 
-                         <input type="submit" name="subscribe" value="Send">
+                         <div class="btn" id="newsletter-send">Send</div>
 
                          <label for="mc-email" class="subscribe-message"></label>
 
@@ -84,24 +84,34 @@
  </footer> <!-- end s-footer -->
 
 
-<!-- Java Script
+ <!-- Java Script
     ================================================== -->
-    <script src="<?= base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
-    <script src="<?= base_url() ?>/assets/js/plugins.js"></script>
-    <script src="<?= base_url() ?>/assets/js/main.js"></script>
+ <script src="<?= base_url() ?>/assets/js/jquery-3.2.1.min.js"></script>
+ <script src="<?= base_url() ?>/assets/js/plugins.js"></script>
+ <script src="<?= base_url() ?>/assets/js/main.js"></script>
 
-    <!-- Summernote -->
+ <!-- Summernote -->
 
-    <!-- include libraries(jQuery, bootstrap) -->
-    <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
-    <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
-    <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
+ <!-- include libraries(jQuery, bootstrap) -->
+ <!-- <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet"> -->
+ <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
+ <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
-    <!-- include summernote css/js -->
-    <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
-    <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
+ <!-- include summernote css/js -->
+ <link href="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.css" rel="stylesheet">
+ <script src="https://cdn.jsdelivr.net/npm/summernote@0.8.18/dist/summernote.min.js"></script>
 
-    <!-- Summernote -->
+ <!-- Summernote -->
+
+ <script type="text/javascript">
+     $("#newsletter-send").click(function() {
+         console.log("Se ha clickeado")
+         $.post("<?php base_url() ?>/Dashboard/add_newsletter", {}).done(function(data) {
+             console.log("Enviando Post")
+             console.log(data)
+         });
+     });
+ </script>
 
  </body>
 

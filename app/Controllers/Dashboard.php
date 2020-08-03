@@ -92,10 +92,12 @@ class Dashboard extends BaseController
 
     public function add_newsletter()
     {
-        if ($_POST) {
+        if (isset($_POST['email'])) {
             $newsLetterModel = new NewsletterModel();
             $_POST['add_at'] = date('Y-m-d');
             $newsLetterModel->insert($_POST);
+        } else {
+            echo "Error";
         }
         
     }
