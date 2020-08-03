@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\PostsModel;
 use App\Models\UsersModel;
 use App\Models\CategoriesModel;
+use App\Models\NewsletterModel;
 
 class Dashboard extends BaseController
 {
@@ -87,5 +88,15 @@ class Dashboard extends BaseController
             /* $postModel->insert($_POST); */
         }
         return loadViews("uploadPost", $data);
+    }
+
+    public function add_newsletter()
+    {
+        if ($_POST) {
+            $newsLetterModel = new NewsletterModel();
+            $_POST['add_at'] = date('Y-m-d');
+            $newsLetterModel->insert($_POST);
+        }
+        
     }
 }
