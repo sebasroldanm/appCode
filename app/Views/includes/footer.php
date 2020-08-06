@@ -25,11 +25,11 @@
                  <div class="subscribe-form">
                      <form method="POST" id="newstter_form" class="group" novalidate="true">
 
-                         <input type="email" value="" name="email" class="email" id="newsletter-input" placeholder="Email Address" required="">
+                         <input type="email" style="color: white;" value="" name="email" class="email" id="newsletter-input" placeholder="Email Address" required="">
 
                          <div class="btn" id="newsletter-send">Send</div>
 
-                         <label for="mc-email" class="subscribe-message"></label>
+                         <label for="mc-email" style="color: white;" class="subscribe-message"></label>
 
                      </form>
                  </div>
@@ -106,9 +106,11 @@
  <script type="text/javascript">
      $("#newsletter-send").click(function() {
          console.log("Se ha clickeado")
-         $.post("<?php base_url() ?>/Dashboard/add_newsletter", {}).done(function(data) {
+         var inputemail = $("#newsletter-input").val()
+         $.post("<?php base_url() ?>/Dashboard/add_newsletter", {email:inputemail}).done(function(data) {
              console.log("Enviando Post")
              console.log(data)
+             $(".subscribe-message").html(data)
          });
      });
  </script>

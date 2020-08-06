@@ -95,10 +95,16 @@ class Dashboard extends BaseController
         if (isset($_POST['email'])) {
             $newsLetterModel = new NewsletterModel();
             $_POST['add_at'] = date('Y-m-d');
-            $newsLetterModel->insert($_POST);
+            $emails = $newsLetterModel->where("email", $_POST['email'])->findAll();
+
+            if ($emails) {
+                echo "Email ya existe";
+            } else {
+                $id = $newsLetterModel->insert($_POST);
+                echo "Bienvenido a la suscripción de información";
+            }
         } else {
             echo "Error";
         }
-        
     }
 }
