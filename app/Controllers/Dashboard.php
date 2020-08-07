@@ -91,6 +91,18 @@ class Dashboard extends BaseController
         return loadViews("uploadPost", $data);
     }
 
+    public function category($id = null)
+    {
+        $categoryModel = new CategoriesModel();
+        $postModel = new PostsModel();
+        $data['category'] = $categoryModel->where("id", $id)->findAll();
+        $data['posts']  = $postModel->where("category", $id)->findAll();
+
+        // dd($data['posts']);
+
+        return loadViews("category", $data);
+    }
+
     public function add_newsletter()
     {
         if (isset($_POST['email'])) {
@@ -113,8 +125,12 @@ class Dashboard extends BaseController
     {
         if ($slug && $id) {
 
+            $commentsModel = new CommentsModel();
+            $data['comments'] = $commentsModel->where("post_id", $id)->findAll();
+            // dd($data);
+
             if ($_POST) {
-                $commentsModel = new CommentsModel();
+
                 helper(["url", "form"]);
 
                 $validation = \Config\Services::validation();
@@ -146,6 +162,7 @@ class Dashboard extends BaseController
                     echo "succesfullllll";
                     $arrayComment = [
                         "post_id" => $id,
+                        "date" => date('Y-m-d'),
                         "name" => $_POST['cName'],
                         "email" => $_POST['cEmail'],
                         "comment" => $_POST['cMessage']

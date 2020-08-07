@@ -152,41 +152,53 @@
 
         <div id="comments" class="row">
             <div class="col-full">
-
-                <h3 class="h2">5 Comments</h3>
-
+                <h3 class="h2">
+                    <?php
+                    $tam = sizeof($comments);
+                    if ($tam == 1) {
+                        echo $tam . ' Comentario';
+                    } else {
+                        echo $tam . ' Comentarios';
+                    }
+                    ?>
+                </h3>
                 <!-- START commentlist -->
                 <ol class="commentlist">
+                    <?php
+                    foreach ($comments as $value) {
+                    ?>
+                        <li class="depth-1 comment">
 
-                    <li class="depth-1 comment">
+                            <div class="comment__avatar">
+                                <img class="avatar" src="<?= base_url().'/assets/' ?>images/avatars/user-01.jpg" alt="" width="50" height="50">
+                            </div>
 
-                        <div class="comment__avatar">
-                            <img class="avatar" src="images/avatars/user-01.jpg" alt="" width="50" height="50">
-                        </div>
+                            <div class="comment__content">
 
-                        <div class="comment__content">
+                                <div class="comment__info">
+                                    <div class="comment__author"><?= $value['name'] ?></div>
 
-                            <div class="comment__info">
-                                <div class="comment__author">Itachi Uchiha</div>
-
-                                <div class="comment__meta">
-                                    <div class="comment__time">Jun 15, 2018</div>
-                                    <div class="comment__reply">
-                                        <a class="comment-reply-link" href="#0">Reply</a>
+                                    <div class="comment__meta">
+                                        <div class="comment__time"><?= date('M-d,Y', strtotime($value['date'])) ?></div>
+                                        <div class="comment__reply">
+                                            <a class="comment-reply-link" href="#0">Responder</a>
+                                        </div>
                                     </div>
+
                                 </div>
+
+                                <div class="comment__text">
+                                    <p><?= $value['comment'] ?></p>
+                                </div>
+
                             </div>
 
-                            <div class="comment__text">
-                                <p>Adhuc quaerendum est ne, vis ut harum tantas noluisse, id suas iisque mei. Nec te inani ponderum vulputate,
-                                    facilisi expetenda has et. Iudico dictas scriptorem an vim, ei alia mentitum est, ne has voluptua praesent.</p>
-                            </div>
-
-                        </div>
-
-                    </li> <!-- end comment level 1 -->
-
-                    <li class="thread-alt depth-1 comment">
+                        </li> <!-- end comment level 1 -->
+                    <?php
+                    }
+                    ?>
+                    <!-- Comentario con nivles -->
+                    <!-- <li class="thread-alt depth-1 comment">
 
                         <div class="comment__avatar">
                             <img class="avatar" src="images/avatars/user-04.jpg" alt="" width="50" height="50">
@@ -278,34 +290,8 @@
 
                         </ul>
 
-                    </li> <!-- end comment level 1 -->
-
-                    <li class="depth-1 comment">
-
-                        <div class="comment__avatar">
-                            <img class="avatar" src="images/avatars/user-02.jpg" alt="" width="50" height="50">
-                        </div>
-
-                        <div class="comment__content">
-
-                            <div class="comment__info">
-                                <div class="comment__author">Shikamaru Nara</div>
-
-                                <div class="comment__meta">
-                                    <div class="comment__time">Jun 15, 2018</div>
-                                    <div class="comment__reply">
-                                        <a class="comment-reply-link" href="#0">Reply</a>
-                                    </div>
-                                </div>
-                            </div>
-
-                            <div class="comment__text">
-                                <p>Typi non habent claritatem insitam; est usus legentis in iis qui facit eorum claritatem.</p>
-                            </div>
-
-                        </div>
-
-                    </li> <!-- end comment level 1 -->
+                    </li> --> 
+                    <!-- end comment level 1 -->
 
                 </ol>
                 <!-- END commentlist -->
@@ -318,24 +304,24 @@
             <!-- START respond -->
             <div id="respond" class="col-full">
 
-                <h3 class="h2">Add Comment <span>Your email address will not be published</span></h3>
+                <h3 class="h2">Agregar un Comentario <span>Su dirección de correo electrónico no será publicada</span></h3>
 
                 <form name="contactForm" id="contactForm" method="post" action="" autocomplete="off">
                     <fieldset>
 
                         <div class="form-field">
-                            <input name="cName" id="cName" class="full-width" placeholder="Your Name*" value="" type="text">
+                            <input name="cName" id="cName" class="full-width" placeholder="Tu nombre*" value="" type="text">
                         </div>
 
                         <div class="form-field">
-                            <input name="cEmail" id="cEmail" class="full-width" placeholder="Your Email*" value="" type="text">
+                            <input name="cEmail" id="cEmail" class="full-width" placeholder="Tu Correo*" value="" type="text">
                         </div>
 
                         <div class="message form-field">
-                            <textarea name="cMessage" id="cMessage" class="full-width" placeholder="Your Message*"></textarea>
+                            <textarea name="cMessage" id="cMessage" class="full-width" placeholder="Tu Comentario*"></textarea>
                         </div>
 
-                        <input name="submit" id="submit" class="btn btn--primary btn-wide btn--large full-width" value="Add Comment" type="submit">
+                        <input name="submit" id="submit" class="btn btn--primary btn-wide btn--large full-width" value="Agregar Comentario" type="submit">
 
                     </fieldset>
                 </form> <!-- end form -->
