@@ -6,6 +6,7 @@ namespace App\Controllers;
 use App\Models\PostsModel;
 use App\Models\UsersModel;
 use App\Models\CategoriesModel;
+use App\Models\CommentsModel;
 use App\Models\NewsletterModel;
 
 class Dashboard extends BaseController
@@ -111,9 +112,50 @@ class Dashboard extends BaseController
     public function post($slug = null, $id = null)
     {
         if ($slug && $id) {
+
+            if ($_POST) {
+                $commentsModel = new CommentsModel();
+                helper(["url", "form"]);
+
+                $validation = \Config\Services::validation();
+
+                $validation->setRules(
+                    [
+                        "cName" => "required",
+                        "cEmail" => "required",
+                        "cMessage" => "required|min_length[20]"
+                    ],
+                    [
+                        "cName" => [
+                            "required" => "El nombre es requerido"
+                        ],
+                        "cEmail" => [
+                            "required" => "El email es requerido"
+                        ],
+                        "cMessage" => [
+                            "required" => "El comentario es requerido",
+                            "min_length" => "El comentario debe tener mínimo 20 caracteres"
+                        ]
+                    ]
+                );
+
+                if (!$validation->withRequest($this->request)->run()) {
+                    echo "error!!!";
+                    $data["error"] = "true";
+                } else {
+                    echo "succesfullllll";
+                    $arrayComment = [
+                        "post_id" => $id,
+                        "name" => $_POST['cName'],
+                        "email" => $_POST['cEmail'],
+                        "comment" => $_POST['cMessage']
+                    ];
+                    $commentsModel->insert($arrayComment);
+                }
+            }
             $postModel = new PostsModel();
             $posts = $postModel->where("id", $id)->findAll();
-            $data['post'] = $posts;            
+            $data['post'] = $posts;
             $categoryModel = new CategoriesModel();
             $data['categories'] = $categoryModel->where("id", $posts[0]['category'])->findAll();
             return loadViews("post", $data);
