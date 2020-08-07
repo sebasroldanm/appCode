@@ -107,4 +107,16 @@ class Dashboard extends BaseController
             echo "Error";
         }
     }
+
+    public function post($slug = null, $id = null)
+    {
+        if ($slug && $id) {
+            $postModel = new PostsModel();
+            $posts = $postModel->where("id", $id)->findAll();
+            $data['post'] = $posts;            
+            $categoryModel = new CategoriesModel();
+            $data['categories'] = $categoryModel->where("id", $posts[0]['category'])->findAll();
+            return loadViews("post", $data);
+        }
+    }
 }

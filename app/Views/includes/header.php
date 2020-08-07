@@ -66,7 +66,7 @@
     <header class="s-header header">
 
         <div class="header__logo">
-            <a class="logo" href="index.html">
+            <a class="logo" href="<?= base_url() .'/dashboard' ?>">
                 <img src="<?= base_url() ?>/assets/images/logo.svg" alt="Homepage">
             </a>
         </div> <!-- end header__logo -->
