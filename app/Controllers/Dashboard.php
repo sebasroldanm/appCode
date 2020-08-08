@@ -29,10 +29,10 @@ class Dashboard extends BaseController
         $db = \Config\Database::connect();
         $query = $db->query(
             "SELECT p.*, c.id AS idCategory, c.name AS nameCategory, u.name, u.username 
-            FROM appCode_udemy.posts p 
-            INNER JOIN appCode_udemy.categories c 
+            FROM posts p 
+            INNER JOIN categories c 
             ON p.category  = c.id
-            INNER JOIN appCode_udemy.users u 
+            INNER JOIN users u 
             ON p.id_user = u.id 
             ORDER BY p.created_at DESC"
         );
@@ -146,6 +146,7 @@ class Dashboard extends BaseController
     {
         if ($slug && $id) {
 
+            $db = \Config\Database::connect();
             $commentsModel = new CommentsModel();
             $data['comments'] = $commentsModel->where("post_id", $id)->findAll();
             // dd($data);
@@ -180,7 +181,6 @@ class Dashboard extends BaseController
                     echo "error!!!";
                     $data["error"] = "true";
                 } else {
-                    echo "succesfullllll";
                     $arrayComment = [
                         "post_id" => $id,
                         "date" => date('Y-m-d'),
@@ -188,7 +188,10 @@ class Dashboard extends BaseController
                         "email" => $_POST['cEmail'],
                         "comment" => $_POST['cMessage']
                     ];
+
                     $commentsModel->insert($arrayComment);
+
+                    $data['succes'] = "Su comentario ha sido guardado";
                 }
             }
 
@@ -199,6 +202,13 @@ class Dashboard extends BaseController
             $data['categories'] = $categoryModel->where("id", $posts[0]['category'])->findAll();
             $userModel = new UsersModel();
             $data['user'] = $userModel->where("id", $posts[0]['id_user'])->first();
+
+            $query = $db->query(
+                "UPDATE posts SET show_home = show_home + 1 WHERE id  = $id"
+            );
+
+
+
             return loadViews("post", $data);
         }
     }

@@ -9,7 +9,8 @@
                 <?php
                 $url = base_url() . "/uploads/" . $post[0]['banner'];
                 ?>
-                <img src="<?= $url ?>" sizes="(max-width: 2000px) 100vw, 2000px" alt="" style="align-content: center;">
+
+                <img src="<?= $url ?>" srcset="<?= $url ?> 1000w" sizes="(max-width: 2000px) 100vw, 2000px" alt="">
             </div>
         </div>
 
@@ -31,15 +32,30 @@
 
         <div class="col-full entry__main">
 
-            <p class="lead drop-cap">
-                <?= $post[0]['content'] ?>
-            </p>
-
             <blockquote>
                 <p>
                     <?= $post[0]['intro'] ?>
                 </p>
             </blockquote>
+
+            <p class="lead drop-cap">
+                <?= $post[0]['content'] ?>
+            </p>
+
+            <div class="row half-bottom">
+
+                <div class="col-twelve">
+
+                    <!-- <h3>Estadísticas</h3> -->
+
+                    <ul class="stats-tabs">
+                        <li><a href="#"><?= $post[0]['show_home'] ?> <em>Visitas</em></a></li>
+                        <!-- <li><a href="#">567 <em>Gratitud</em></a></li> -->
+                    </ul>
+
+                </div>
+
+            </div> <!-- end row -->
 
             <!-- <p>Odio dignissimos ducimus qui blanditiis praesentium voluptatum deleniti atque corrupti dolores et quas molestias excepturi sint occaecati cupiditate non provident, similique sunt in culpa. Aenean eu leo quam. Pellentesque ornare sem lacinia quam venenatis vestibulum. Nulla vitae elit libero, a pharetra augue laboris in sit minim cupidatat ut dolor voluptate enim veniam consequat occaecat fugiat in adipisicing in amet Ut nulla nisi non ut enim aliqua laborum mollit quis nostrud sed sed.</p>
 
@@ -123,26 +139,59 @@
 
     <div class="s-content__entry-nav">
         <div class="row s-content__nav">
-            <div class="col-six s-content__prev">
-                <?php
-                $db = \Config\Database::connect();
-                $query = $db->query("SELECT * FROM posts ORDER BY RAND() LIMIT 2");
-                $result = $query->getResult();
-                ?>
-                <a href="<?= base_url() . '/Dashboard/post/' . $result[0]->slug . '/' . $result[0]->id ?>" rel="prev">
-                    <span>Post Anterior</span>
-                    <?= $result[0]->title;
+            <?php
+            $db = \Config\Database::connect();
+            $id = $post[0]['id'];
+            $queryNext = $db->query("SELECT * FROM appCode_udemy.posts p WHERE p.id = (SELECT MIN(p.id ) FROM appCode_udemy.posts p2 WHERE p.id > $id )");
+            $queryPrevious = $db->query("SELECT * FROM appCode_udemy.posts p WHERE p.id = (SELECT MIN(p.id ) FROM appCode_udemy.posts p2 WHERE p.id < $id )");
+            $resultNext = $queryNext->getResult();
+            $resultPrevious = $queryPrevious->getResult();
 
-                    ?>
-                </a>
-            </div>
-            <div class="col-six s-content__next">
-                <a href="<?= base_url() . '/Dashboard/post/' . $result[1]->slug . '/' . $result[1]->id ?>" rel="next">
-                    <span>Siguiente Post</span>
-                    <?= $result[1]->title;
-                    ?>
-                </a>
-            </div>
+            if (!empty($resultPrevious)) {
+            ?>
+                <div class="col-six s-content__prev">
+                    <a href="<?= base_url() . '/Dashboard/post/' . $resultPrevious[0]->slug . '/' . $resultPrevious[0]->id ?>" rel="prev">
+                        <span>Post Anterior</span>
+                        <?= $resultPrevious[0]->title;
+                        ?>
+                    </a>
+                </div>
+            <?php
+            } else {
+            ?>
+                <div class="col-six s-content__prev">
+                    <a href="<?= base_url() . '/Dashboard/uploadPost/' ?>" rel="prev">
+                        <span>Siguiente Post</span>
+                        No hay post disponibles :(. Punlica tu post para que se visualice por aquí
+                    </a>
+                </div>
+            <?php
+            }
+            ?>
+
+            <?php
+            if (!empty($resultNext)) {
+            ?>
+                <div class="col-six s-content__next">
+                    <a href="<?= base_url() . '/Dashboard/post/' . $resultNext[0]->slug . '/' . $resultNext[0]->id ?>" rel="next">
+                        <span>Siguiente Post</span>
+                        <?= $resultNext[0]->title;
+                        ?>
+                    </a>
+                </div>
+            <?php
+            } else {
+            ?>
+                <div class="col-six s-content__prev">
+                    <a href="<?= base_url() . '/Dashboard/uploadPost/' ?>" rel="prev">
+                        <span>Anterior Post</span>
+                        No hay post disponibles :(. Punlica tu post para que se visualice por aquí
+                    </a>
+                </div>
+            <?php
+            }
+            ?>
+
         </div>
     </div> <!-- end s-content__pagenav -->
 
@@ -168,7 +217,7 @@
                         <li class="depth-1 comment">
 
                             <div class="comment__avatar">
-                                <img class="avatar" src="<?= base_url().'/assets/' ?>images/avatars/user-03.jpg" alt="" width="50" height="50">
+                                <img class="avatar" src="<?= base_url() . '/assets/' ?>images/avatars/user-03.jpg" alt="" width="50" height="50">
                             </div>
 
                             <div class="comment__content">
@@ -288,7 +337,7 @@
 
                         </ul>
 
-                    </li> --> 
+                    </li> -->
                     <!-- end comment level 1 -->
 
                 </ol>

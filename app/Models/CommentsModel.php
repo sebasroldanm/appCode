@@ -12,5 +12,5 @@ class CommentsModel extends Model
     protected $returnType = "array";
     protected $useSoftDeletes = true;
 
-    protected $allowedFields = ["post_id", "name", "email", "comment"];
+    protected $allowedFields = ["post_id", "name", "email", "comment", "date"];
 }
