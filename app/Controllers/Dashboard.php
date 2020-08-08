@@ -13,7 +13,7 @@ class Dashboard extends BaseController
 {
     public function index()
     {
-        $model = new PostsModel();
+        /* $model = new PostsModel();
         $model->insert([
             "banner" => "http://lorempixel.com/640/480",
             "title" => "quidem",
@@ -24,8 +24,22 @@ class Dashboard extends BaseController
             "created_at" => date("Y-m-d"),
             "created_by" => "1"
         ]);
+ */
 
-        return loadViews("index");
+        $db = \Config\Database::connect();
+        $query = $db->query(
+            "SELECT p.*, c.id AS idCategory, c.name AS nameCategory, u.name, u.username 
+            FROM appCode_udemy.posts p 
+            INNER JOIN appCode_udemy.categories c 
+            ON p.category  = c.id
+            INNER JOIN appCode_udemy.users u 
+            ON p.id_user = u.id 
+            ORDER BY p.created_at DESC"
+        );
+        $result = $query->getResult();
+        $data['lastPost'] = $result;
+
+        return loadViews("index", $data);
     }
 
     public function uploadPost()
@@ -69,7 +83,7 @@ class Dashboard extends BaseController
             if (!$validation->withRequest($this->request)->run()) {
                 //form validation error
                 $errors = $validation->getErrors();
-                $data['error'] = true;
+                $data['error'] = $errors;
                 dd($errors);
             } else {
                 $file = $this->request->getFile("banner");
@@ -79,10 +93,17 @@ class Dashboard extends BaseController
                     $_POST['banner'] = $filename;
                     $_POST['slug'] = url_title($_POST['title']);
                     $_POST['created_at'] = date('Y-m-d');
+                    $_POST['show_home'] = 0;
+                    $_POST['id_user'] = 1;
+
+                    // dd($_POST);
 
                     $postModel->insert($_POST);
+                    $data['succes'] = "Su post se ha agregado correctamente";
+                    // unset($_POST);
+                    // header('Location:' . base_url() . '/dashboard/uploadPost');
                 } else {
-                    echo "Archivo no válido";
+                    $data['error'] = "Archivo no válido";
                 }
             }
 
@@ -170,11 +191,14 @@ class Dashboard extends BaseController
                     $commentsModel->insert($arrayComment);
                 }
             }
+
             $postModel = new PostsModel();
             $posts = $postModel->where("id", $id)->findAll();
             $data['post'] = $posts;
             $categoryModel = new CategoriesModel();
             $data['categories'] = $categoryModel->where("id", $posts[0]['category'])->findAll();
+            $userModel = new UsersModel();
+            $data['user'] = $userModel->where("id", $posts[0]['id_user'])->first();
             return loadViews("post", $data);
         }
     }

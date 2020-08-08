@@ -100,19 +100,17 @@
         </div> <!-- end s-content__taxonomies -->
 
         <div class="entry__author">
-            <img src="images/avatars/user-03.jpg" alt="">
+            <img src="<?= base_url() ?>/assets/images/avatars/user-03.jpg" alt="">
 
             <div class="entry__author-about">
                 <h5 class="entry__author-name">
-                    <span>Posted by</span>
-                    <a href="#0">Jonathan Doe</a>
+                    <span>Posteado por</span>
+                    <a href="#0"><?= $user['name'] ?></a>
                 </h5>
 
                 <div class="entry__author-desc">
                     <p>
-                        Alias aperiam at debitis deserunt dignissimos dolorem doloribus, fuga fugiat
-                        impedit laudantium magni maxime nihil nisi quidem quisquam sed ullam voluptas
-                        voluptatum. Lorem ipsum dolor sit.
+                        <?= $user['bio'] ?>
                     </p>
                 </div>
             </div>
@@ -170,7 +168,7 @@
                         <li class="depth-1 comment">
 
                             <div class="comment__avatar">
-                                <img class="avatar" src="<?= base_url().'/assets/' ?>images/avatars/user-01.jpg" alt="" width="50" height="50">
+                                <img class="avatar" src="<?= base_url().'/assets/' ?>images/avatars/user-03.jpg" alt="" width="50" height="50">
                             </div>
 
                             <div class="comment__content">

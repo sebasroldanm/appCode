@@ -92,7 +92,7 @@
             <h2 class="header__nav-heading h6">Navigate to</h2>
 
             <ul class="header__nav">
-                <li class="current"><a href="<?= base_url() ?>" title="">Home</a></li>
+                <li class="current"><a href="<?= base_url().'/dashboard' ?>" title="">Home</a></li>
                 <li class="has-children">
                     <a href="#0" title="">Categorias</a>
                     <ul class="sub-menu">
@@ -103,18 +103,18 @@
                         $result = $query->getResult();
 
                         foreach ($result as $value) {
-                            echo '<li><a href="' . base_url() . '/dashboard/categories/' . $value->id . '">' . $value->name . '</a></li>';
+                            echo '<li><a href="' . base_url() . '/dashboard/category/' . $value->id . '">' . $value->name . '</a></li>';
                         }
                         ?>
 
                     </ul>
                 </li>
                 <li class="">
-                    <a href="<?= base_url() ?>/dashboard/blog" title="">Blog</a>
+                    <a href="<?= base_url() ?>/dashboard/uploadPost" title="">Postear</a>
                 </li>
-                <li><a href="style-guide.html" title="">Styles</a></li>
+                <!-- <li><a href="style-guide.html" title="">Styles</a></li>
                 <li><a href="page-about.html" title="">About</a></li>
-                <li><a href="page-contact.html" title="">Contact</a></li>
+                <li><a href="page-contact.html" title="">Contact</a></li> -->
             </ul> <!-- end header__nav -->
 
             <a href="#0" title="Close Menu" class="header__overlay-close close-mobile-menu">Close</a>

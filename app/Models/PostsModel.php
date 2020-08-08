@@ -20,6 +20,8 @@ class PostsModel extends Model
         "content",
         "category",
         "tags",
+        "show_home",
+        "id_user",
         "created_at",
         "created_by"
     ];
