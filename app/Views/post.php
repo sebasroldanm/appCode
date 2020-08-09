@@ -174,7 +174,7 @@
             ?>
                 <div class="col-six s-content__next">
                     <a href="<?= base_url() . '/Dashboard/post/' . $resultNext[0]->slug . '/' . $resultNext[0]->id ?>" rel="next">
-                        <span>Siguiente Post</span>
+                        <span>Anterior Post</span>
                         <?= $resultNext[0]->title;
                         ?>
                     </a>
@@ -184,7 +184,7 @@
             ?>
                 <div class="col-six s-content__prev">
                     <a href="<?= base_url() . '/Dashboard/uploadPost/' ?>" rel="prev">
-                        <span>Anterior Post</span>
+                        <span>Siguiente Post</span>
                         No hay post disponibles :(. Punlica tu post para que se visualice por aquí
                     </a>
                 </div>

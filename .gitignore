@@ -125,3 +125,6 @@ nb-configuration.xml
 /phpunit*.xml
 /.phpunit.*.cache
 
+# Uploads de Fotos
+/uploads/*
+!/uploads/post.png

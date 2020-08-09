@@ -20,6 +20,10 @@ class Users extends Migration
 				'constraint'		=> '100',
 				'null'				=> true,
 			],
+			'email'				=> [
+				'type'				=> 'TEXT',
+				'null'				=> true,
+			],
 			'bio' 				=> [
 				'type'           	=> 'TEXT',
 				'null'           	=> true,

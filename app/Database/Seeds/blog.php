@@ -7,5 +7,6 @@ class Blog extends Seeder
 	public function run()
 	{
 		$this->call('CategoriesSeeder');
+		$this->call('UsersSeeder');
 	}
 }
