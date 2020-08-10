@@ -112,6 +112,9 @@
                 <li class="">
                     <a href="<?= base_url() ?>/dashboard/uploadPost" title="">Postear</a>
                 </li>
+                <li class="">
+                    <a href="<?= base_url() ?>/users" title="">Usuario</a>
+                </li>
                 <!-- <li><a href="style-guide.html" title="">Styles</a></li>
                 <li><a href="page-about.html" title="">About</a></li>
                 <li><a href="page-contact.html" title="">Contact</a></li> -->

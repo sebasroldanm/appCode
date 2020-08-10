@@ -18,11 +18,11 @@ class Users extends Migration
 			'name'				=> [
 				'type'				=> 'VARCHAR',
 				'constraint'		=> '100',
-				'null'				=> true,
+				'null'				=> false,
 			],
 			'email'				=> [
 				'type'				=> 'TEXT',
-				'null'				=> true,
+				'null'				=> false,
 			],
 			'bio' 				=> [
 				'type'           	=> 'TEXT',
@@ -31,16 +31,16 @@ class Users extends Migration
 			'username'			=> [
 				'type'				=>	'VARCHAR',
 				'constraint'		=> '100',
-				'null'				=> true,
+				'null'				=> false,
 			],
 			'password' 			=> [
 				'type'           	=> 'TEXT',
-				'null'           	=> true,
+				'null'           	=> false,
 			],
 			'role' 				=> [
 				'type'           	=> 'INT',
 				'constraint'     	=> 2,
-				'null'           	=> true,
+				'null'           	=> false,
 			],
 			'last_login' 			=> [
 				'type'           	=> 'DATE',
@@ -48,14 +48,21 @@ class Users extends Migration
 			],
 			'deleted' 			=> [
 				'type'           	=> 'INT',
-				'constraint'     	=> 2,
-				'null'           	=> true,
+				'constraint'     	=> 1,
+				'null'           	=> false,
 				'default'			=> '0',
+			],
+			'created_at' 			=> [
+				'type'           	=> 'DATE',
+				'null'           	=> false,
+			],
+			'updated_at' 			=> [
+				'type'           	=> 'DATE',
+				'null'           	=> true,
 			],
 			'deleted_at' 			=> [
 				'type'           	=> 'DATE',
-				'null'           	=> false,
-				'default'			=> '0',
+				'null'           	=> true,
 			],
 		]);
 		$this->forge->addKey('id', true);
