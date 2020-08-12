@@ -48,7 +48,7 @@ class UsersModel extends Model
         ],
         'username' => [
             'required' => 'El campo de Usuario es obligatorio.',
-            'is_unique' => 'El campo de nombre de usuario debe contener un valor único.'
+            'is_unique' => 'El campo de Usuario de usuario debe contener un valor único.'
         ],
         'password' => [
             'required' => 'El campo de Contraseña es obligatorio.'

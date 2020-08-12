@@ -2,7 +2,6 @@
 
 namespace App\Controllers;
 
-use CodeIgniter\Controller;
 use App\Models\UsersModel;
 
 class UserController extends BaseController
@@ -77,7 +76,7 @@ class UserController extends BaseController
 		// $userModel->purgeDeleted();	//Purgan todos los que estan eliminados suavemente
 
 
-/*
+		/*
 		*************************************************************************************
 		  						VALIDACIONES
 
@@ -102,17 +101,102 @@ class UserController extends BaseController
 		$result['users'] = $userModel->findAll();
 
 
-		return loadViews("user", $result);
+		return loadViews("User/index", $result);
 	}
 
 	public function create()
 	{
-		loadViews('User/create');
+		return loadViews('User/create');
+	}
+
+	public function save()
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+		$data = array(
+			'name' => $request->getPostGet('name'),
+			'email' => $request->getPostGet('email'),
+			'bio' => $request->getPostGet('bio'),
+			'username' => $request->getPostGet('username'),
+			'password' => $request->getPostGet('password'),
+			'role' => $request->getPostGet('role'),
+			'created_at' => date("Y-m-d H:i:s")
+		);
+
+
+		if ($userModel->save($data)) {
+			$data['success'] = 'Bienvenido/a' . $request->getPostGet('name');
+			$data['users'] = $userModel->findAll();
+			return loadViews("User/index", $data);
+		} else {
+			$data['error'] = var_dump($userModel->errors());
+			return loadViews('User/create', $data);
+		}
 	}
 
 	public function edit()
 	{
-		return view('home');
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+		$id = $request->getPostGet('id');
+		$user = $userModel->find($id);
+		$data = array('user' => $user);
+		return loadViews('User/edit', $data);
+	}
+
+	public function update()
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+
+		$user = $userModel->find($request->getPostGet('id'));
+		$userAfter = $request->getPostGet('username');
+		$userBefore = $user['username'];
+
+		$Form = array(
+			'id' => $request->getPostGet('id'),
+			'name' => $request->getPostGet('name'),
+			'email' => $request->getPostGet('email'),
+			'bio' => $request->getPostGet('bio'),
+			'username' => $request->getPostGet('username'),
+			'password' => $request->getPostGet('password'),
+			'role' => $request->getPostGet('role'),
+			'update_at' => date("Y-m-d H:i:s")
+		);
+
+		$merge = array_merge($user, $Form);
+
+		if (strcmp($userAfter, $userBefore) == 0) {
+			unset($merge['username']);
+		}
+
+		if ($userModel->save($merge)) {
+			$data['users'] = $userModel->findAll();
+			$data['success'] = 'Usuario Modificado';
+			return loadViews("User/index", $data);
+		} else {
+			$data['error'] = $userModel->errors();
+			$user = $userModel->find($request->getPostGet('id'));
+			$data['user'] = $user;
+			return loadViews('User/edit', $data);
+		}
+	}
+
+	public function delete()
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+		$id = $request->getPostGet('id');
+
+		if ($id) {
+			$data['success'] = 'Usuario eliminado';
+			$userModel->delete($id);
+		} else {
+			$data['error'] = 'No se ha encotrado usuario - Codigo de error' . $userModel->errors();
+		}
+
+		$data['users'] = $userModel->findAll();
+		return loadViews("User/index", $data);
 	}
 
 	//--------------------------------------------------------------------

@@ -13,6 +13,8 @@
 
     <!-- include libraries(jQuery, bootstrap) -->
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/css/bootstrap.min.css" rel="stylesheet">
+    <!-- Iconos de Google -->
+    <link href="https://fonts.googleapis.com/icon?family=Material+Icons" rel="stylesheet">
     <!-- <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script> -->
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/3.4.1/js/bootstrap.min.js"></script>
 
@@ -113,7 +115,7 @@
                     <a href="<?= base_url() ?>/dashboard/uploadPost" title="">Postear</a>
                 </li>
                 <li class="">
-                    <a href="<?= base_url() ?>/users" title="">Usuario</a>
+                    <a href="<?= base_url() ?>/UserController" title="">Usuario</a>
                 </li>
                 <!-- <li><a href="style-guide.html" title="">Styles</a></li>
                 <li><a href="page-about.html" title="">About</a></li>
