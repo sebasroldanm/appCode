@@ -3,17 +3,15 @@
     <article class="row entry format-standard">
 
         <?php
-        if (isset($error)) {
-        ?>
-            <div class="alert-box alert-box--error hideit">
-                <p><?php 
-                foreach ($error as  $value) {
-                    echo $value;
-                } 
-                ?></p>
-                <i class="fa fa-times alert-box__close"></i>
-            </div> <!-- end success -->
-        <?php
+        if (isset($messageData)) {
+            foreach ($messageData['message'] as $value) {
+                echo '<div class="alert-box alert-box--' . $messageData['type'] . ' hideit">';
+                echo '<p>' . $value . '</p>';
+                echo '<i class="fa fa-times alert-box__close"></i>';
+                echo '</div>';
+            }
+            $session = \Config\Services::session();
+            echo $session->remove('info');
         }
 
         if (isset($user['id'])) {
@@ -46,7 +44,7 @@
 
         <?php
 
-        echo form_open('/UserController/update');
+        echo form_open('/user/update');
 
         // echo '<label for="sampleTitle">Este es el ID</label>';
         echo form_input(array('name' => 'id', 'value' => $id, 'placeholder' => 'Nombre', 'class' => 'full-with', 'type' => 'hidden'));

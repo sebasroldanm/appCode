@@ -3,13 +3,15 @@
     <article class="row entry format-standard">
 
         <?php
-        if (isset($error)) {
-        ?>
-            <div class="alert-box alert-box--error hideit">
-                <p><?= $error ?></p>
-                <i class="fa fa-times alert-box__close"></i>
-            </div> <!-- end success -->
-        <?php
+        if (isset($messageData)) {
+            foreach ($messageData['message'] as $value) {
+                echo '<div class="alert-box alert-box--' . $messageData['type'] . ' hideit">';
+                echo '<p>' . $value . '</p>';
+                echo '<i class="fa fa-times alert-box__close"></i>';
+                echo '</div>';
+            }
+            $session = \Config\Services::session();
+            echo $session->remove('info');
         }
         ?>
 
@@ -24,7 +26,7 @@
 
         <?php
 
-        echo form_open('/UserController/save');
+        echo form_open('user/save');
 
         echo '<label for="sampleTitle">Ingrese su Nombre</label>';
         echo form_input(array('name' => 'name', 'placeholder' => 'Nombre', 'class' => 'full-with', 'type' => 'text'));
@@ -45,6 +47,9 @@
         echo form_input(array('name' => 'role', 'placeholder' => 'Rol', 'class' => 'full-with', 'type' => 'text'));
 
         echo form_submit('guarda', 'Guardar');
+        ?>
+        <a href="<?= base_url() ?>/user" class="btn btn-primary" role="button">Cancelar</a>
+        <?php
 
         echo form_close();
 

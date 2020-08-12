@@ -29,6 +29,12 @@ class BaseController extends Controller
 	protected $helpers = [];
 
 	/**
+	 * Variable sesion, trabajando inicialmente para uso de alertas
+	 * o en su defecto, si es necesario almacenar datos importantes
+	 */
+	public $session = null;
+
+	/**
 	 * Constructor.
 	 */
 	public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)
@@ -38,6 +44,8 @@ class BaseController extends Controller
 
 		helper('operaciones');
 		helper('views');
+
+		$this->session = \Config\Services::session();
 
 		//--------------------------------------------------------------------
 		// Preload any models, libraries, etc, here.

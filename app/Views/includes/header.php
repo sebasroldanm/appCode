@@ -115,7 +115,7 @@
                     <a href="<?= base_url() ?>/dashboard/uploadPost" title="">Postear</a>
                 </li>
                 <li class="">
-                    <a href="<?= base_url() ?>/UserController" title="">Usuario</a>
+                    <a href="<?= base_url() ?>/user" title="">Usuario</a>
                 </li>
                 <!-- <li><a href="style-guide.html" title="">Styles</a></li>
                 <li><a href="page-about.html" title="">About</a></li>

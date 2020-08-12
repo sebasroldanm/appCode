@@ -31,7 +31,13 @@ $routes->setAutoRoute(true);
 // We get a performance increase by specifying the default
 // route since we don't have to scan directories.
 $routes->get('/', 'Dashboard::index');
-// $routes->get('/user', 'UserController::index');
+$routes->get('/user', 'UserController::index');
+$routes->get('/user/index', 'UserController::index');
+$routes->get('/user/create', 'UserController::create');
+$routes->post('/user/save', 'UserController::save');
+$routes->post('/user/update', 'UserController::update');
+$routes->get('/user/edit/(:any)', 'UserController::edit/$1');
+$routes->get('/user/delete/(:any)', 'UserController::delete/$1');
 // $routes->get('/user/create', 'UserController::create');
 // $routes->post('/user/save', 'UserController::save');
 

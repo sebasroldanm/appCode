@@ -1,0 +1,212 @@
+<?php
+
+namespace App\Controllers;
+
+use App\Models\UsersModel;
+
+class UserController extends BaseController
+{
+	public function __construct()
+	{
+		helper('form');
+	}
+
+	public function index()
+	{
+		$userModel = new UsersModel($db);
+
+		// $userModel->find([1, 2]);
+		// $userModel->findAll();
+		// $userModel->where('email', 'Pacocha@app.com')->findAll();
+		// $userModel->find(2, 4);
+		// $result['users'] = $userModel->onlyDeleted()->findAll();
+
+		/* 
+		$data = [
+			'name' => 'Juan',
+			'email' => 'Juan@app.com',
+			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
+			'username' => 'juanpis',
+			'password' => '123456789',
+			'role' => '1',
+			'created_at' => date('Y-m-d H:i:s')
+		];
+ */
+
+		// $userModel->insert($data);
+		// $userModel->update(22, $data);
+
+		/* 
+		$data = [
+			'role' => '2',
+			'updated_at' => date('Y-m-d H:i:s')
+		];
+		$userModel->update([21, 22, 23], $data);
+ */
+		// $userModel->whereIn('id', [21, 23])->set(['role' => 1])->update();
+
+		/* 
+		$data = [
+			'name' => 'sandra',
+			'email' => 'sandra@app.com',
+			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
+			'username' => 'juanpis',
+			'password' => '123456789',
+			'role' => '1',
+			'created_at' => date('Y-m-d H:i:s')
+		];
+		$data = [
+			'id' =>'21',
+			'name' => 'sandra',
+			'email' => 'sandra@app.com',
+			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
+			'username' => 'juanpis',
+			'password' => '123456789',
+			'role' => '1',
+			'created_at' => date('Y-m-d H:i:s')
+		];
+
+		$userModel->save($data);//	GUARDA SI NO TIENE ID, EDITA SI TIENE ID
+ */
+
+
+		// $userModel->delete(23);
+		// $userModel->delete([21, 22]);
+		// $userModel->where('name', 'Sebastian')->delete();
+		// $userModel->purgeDeleted();	//Purgan todos los que estan eliminados suavemente
+
+
+		/*
+		*************************************************************************************
+		  						VALIDACIONES
+
+
+		$data = [
+			'name' => 'sa%&/(',
+			'email' => 'sandra@app.com',
+			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
+			'username' => 'juanpis',
+			'password' => '123456789',
+			'role' => '1',
+			'created_at' => date('Y-m-d H:i:s')
+		];
+ 
+		if (!$userModel->save($data)) {
+			dd($userModel->errors());
+		} 
+*/
+
+
+
+		$result['users'] = $userModel->findAll();
+
+		// return json_encode($result);
+		return loadViews("User/index", $result);
+	}
+
+	public function create()
+	{
+		return loadViews('User/create');
+	}
+
+	public function save()
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+		$data = array(
+			'name' => $request->getPostGet('name'),
+			'email' => $request->getPostGet('email'),
+			'bio' => $request->getPostGet('bio'),
+			'username' => $request->getPostGet('username'),
+			'password' => $request->getPostGet('password'),
+			'role' => $request->getPostGet('role'),
+			'created_at' => date("Y-m-d H:i:s")
+		);
+
+
+		if ($userModel->save($data)) {
+			// $data['success'] = 'Bienvenido/a' . $request->getPostGet('name');
+			$key = 'success';
+			$message = 'Bienvenido/a' . $request->getPostGet('name');
+			return redirect()->to(base_url() . '/user')->with($key, $message);
+		} else {
+			$key = 'error';
+			$message = $userModel->errors();
+			return redirect()->to(base_url() . '/user')->with($key, $message);
+			// return redirect()->to(base_url() . '/user');
+		}
+	}
+
+	public function edit($id)
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+		// $id = $request->getPostGet('id');
+		$user = $userModel->find($id);
+		$data = array('user' => $user);
+		return loadViews('User/edit', $data);
+	}
+
+	public function update()
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+
+		$user = $userModel->find($request->getPostGet('id'));
+		$userAfter = $request->getPostGet('username');
+		$userBefore = $user['username'];
+
+		$Form = array(
+			'id' => $request->getPostGet('id'),
+			'name' => $request->getPostGet('name'),
+			'email' => $request->getPostGet('email'),
+			'bio' => $request->getPostGet('bio'),
+			'username' => $request->getPostGet('username'),
+			'password' => $request->getPostGet('password'),
+			'role' => $request->getPostGet('role'),
+			'update_at' => date("Y-m-d H:i:s")
+		);
+
+		$merge = array_merge($user, $Form);
+
+		if (strcmp($userAfter, $userBefore) == 0) {
+			unset($merge['username']);
+		}
+
+		if ($userModel->save($merge)) {
+			$data['users'] = $userModel->findAll();
+			$data['success'] = 'Usuario Modificado';
+			return loadViews("User/index", $data);
+		} else {
+			$data['error'] = $userModel->errors();
+			$user = $userModel->find($request->getPostGet('id'));
+			$data['user'] = $user;
+			return loadViews('User/edit', $data);
+		}
+	}
+
+	public function delete($id)
+	{
+		$userModel = new UsersModel();
+		$request = \Config\Services::request();
+		// $id = $request->getPostGet('id');
+
+		if ($id) {
+			if ($userModel->delete($id)) {
+				$key = 'success';
+				$message = 'Usuario eliminado';
+			} else {
+				$key = 'error';
+				$message = 'Error 500';
+			}
+		} else {
+			$key = 'error';
+			$message = 'No se ha encotrado usuario - Codigo de error' . $userModel->errors();
+		}
+
+		return redirect()->to(base_url() . '/user')->with($key, $message);
+	}
+
+	//--------------------------------------------------------------------
+
+}

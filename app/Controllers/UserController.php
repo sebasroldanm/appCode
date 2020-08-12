@@ -13,100 +13,52 @@ class UserController extends BaseController
 
 	public function index()
 	{
-		$userModel = new UsersModel($db);
+		// dd($this->session->get());
+		$userModel = new UsersModel();
+		$data['users'] = $userModel->findAll();
 
-		// $userModel->find([1, 2]);
-		// $userModel->findAll();
-		// $userModel->where('email', 'Pacocha@app.com')->findAll();
-		// $userModel->find(2, 4);
-		// $result['users'] = $userModel->onlyDeleted()->findAll();
+		if ($this->session->get('info')) {
+			$session = $this->session->get('info');
+			if ((strcmp($session['type'], 'error')) == 0) {
+				$data['messageData'] = [
+					'type' => 'error',
+					'message' => $session['message']
+				];
+			} elseif ((strcmp($session['type'], 'success')) == 0) {
+				$data['messageData'] = [
+					'type' => 'success',
+					'message' => $session['message']
+				];
+			}
+		}
+		// dd($data);
+		return loadViews("User/index", $data);
+	}
 
-		/* 
-		$data = [
-			'name' => 'Juan',
-			'email' => 'Juan@app.com',
-			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
-			'username' => 'juanpis',
-			'password' => '123456789',
-			'role' => '1',
-			'created_at' => date('Y-m-d H:i:s')
-		];
- */
-
-		// $userModel->insert($data);
-		// $userModel->update(22, $data);
-
-		/* 
-		$data = [
-			'role' => '2',
-			'updated_at' => date('Y-m-d H:i:s')
-		];
-		$userModel->update([21, 22, 23], $data);
- */
-		// $userModel->whereIn('id', [21, 23])->set(['role' => 1])->update();
-
-		/* 
-		$data = [
-			'name' => 'sandra',
-			'email' => 'sandra@app.com',
-			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
-			'username' => 'juanpis',
-			'password' => '123456789',
-			'role' => '1',
-			'created_at' => date('Y-m-d H:i:s')
-		];
-		$data = [
-			'id' =>'21',
-			'name' => 'sandra',
-			'email' => 'sandra@app.com',
-			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
-			'username' => 'juanpis',
-			'password' => '123456789',
-			'role' => '1',
-			'created_at' => date('Y-m-d H:i:s')
-		];
-
-		$userModel->save($data);//	GUARDA SI NO TIENE ID, EDITA SI TIENE ID
- */
-
-
-		// $userModel->delete(23);
-		// $userModel->delete([21, 22]);
-		// $userModel->where('name', 'Sebastian')->delete();
-		// $userModel->purgeDeleted();	//Purgan todos los que estan eliminados suavemente
-
-
-		/*
-		*************************************************************************************
-		  						VALIDACIONES
-
-
-		$data = [
-			'name' => 'sa%&/(',
-			'email' => 'sandra@app.com',
-			'bio' => 'Similique dolorem asperiores unde non nisi ipsa eum non. Ipsum quo natus dolore saepe. Eligendi qui iure nam veritatis qui provident est.',
-			'username' => 'juanpis',
-			'password' => '123456789',
-			'role' => '1',
-			'created_at' => date('Y-m-d H:i:s')
-		];
- 
-		if (!$userModel->save($data)) {
-			dd($userModel->errors());
-		} 
-*/
-
-
-
-		$result['users'] = $userModel->findAll();
-
-
-		return loadViews("User/index", $result);
+	public function destroy()
+	{
+		$this->session->destroy();
 	}
 
 	public function create()
 	{
-		return loadViews('User/create');
+		$data['status'] = 'create';
+		if ($this->session->get('info')) {
+			$session = $this->session->get('info');
+			if ((strcmp($session['type'], 'error')) == 0) {
+				$data['messageData'] = [
+					'type' => 'error',
+					'message' => $session['message']
+				];
+			} elseif ((strcmp($session['type'], 'success')) == 0) {
+				$data['messageData'] = [
+					'type' => 'success',
+					'message' => $session['message']
+				];
+			}
+		}
+		// dd($data, $this->session->get());
+		return loadViews('User/create', $data);
 	}
 
 	public function save()
@@ -125,20 +77,28 @@ class UserController extends BaseController
 
 
 		if ($userModel->save($data)) {
-			$data['success'] = 'Bienvenido/a' . $request->getPostGet('name');
-			$data['users'] = $userModel->findAll();
-			return loadViews("User/index", $data);
+			$info['info'] = [
+				'type' => 'success',
+				'message' => ['Bienvenido/a ' . $request->getPostGet('name')]
+			];
+			$this->session->set($info);
+			return redirect()->to('index');
 		} else {
-			$data['error'] = var_dump($userModel->errors());
-			return loadViews('User/create', $data);
+			$info['info'] = [
+				'type' => 'error',
+				'message' => $userModel->errors()
+			];
+
+			$this->session->set($info);
+
+			return redirect()->to('create');
 		}
 	}
 
-	public function edit()
+	public function edit($id)
 	{
 		$userModel = new UsersModel();
 		$request = \Config\Services::request();
-		$id = $request->getPostGet('id');
 		$user = $userModel->find($id);
 		$data = array('user' => $user);
 		return loadViews('User/edit', $data);
@@ -171,32 +131,50 @@ class UserController extends BaseController
 		}
 
 		if ($userModel->save($merge)) {
-			$data['users'] = $userModel->findAll();
-			$data['success'] = 'Usuario Modificado';
-			return loadViews("User/index", $data);
+			$info['info'] = [
+				'type' => 'success',
+				'message' => ['Usuario Editado Exitosamente']
+			];
+			$this->session->set($info);
+			return redirect()->to('index');
 		} else {
-			$data['error'] = $userModel->errors();
+			$info['info'] = [
+				'type' => 'error',
+				'message' => $userModel->errors()
+			];
+			$this->session->set($info);
 			$user = $userModel->find($request->getPostGet('id'));
 			$data['user'] = $user;
 			return loadViews('User/edit', $data);
 		}
 	}
 
-	public function delete()
+	public function delete($id)
 	{
 		$userModel = new UsersModel();
-		$request = \Config\Services::request();
-		$id = $request->getPostGet('id');
 
 		if ($id) {
-			$data['success'] = 'Usuario eliminado';
-			$userModel->delete($id);
+			if ($userModel->delete($id)) {
+				$info['info'] = [
+					'type' => 'success',
+					'message' => ['Usuario Eliminado Exitosamente']
+				];
+				$this->session->set($info);
+			} else {
+				$info = [
+					'type' => 'error',
+					'message' => $userModel->errors()
+				];
+				$this->session->set($info);
+			}
 		} else {
-			$data['error'] = 'No se ha encotrado usuario - Codigo de error' . $userModel->errors();
+			$info = [
+				'type' => 'error',
+				'message' => ['Usuario no existe']
+			];
+			$this->session->set($info);
 		}
-
-		$data['users'] = $userModel->findAll();
-		return loadViews("User/index", $data);
+		return redirect()->to(base_url() . '/user/index');
 	}
 
 	//--------------------------------------------------------------------
