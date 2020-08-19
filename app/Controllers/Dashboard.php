@@ -11,6 +11,13 @@ use App\Models\NewsletterModel;
 
 class Dashboard extends BaseController
 {
+    public function __construct()
+	{
+		helper('form');
+		$this->data['titlePageOne'] = 'WSmith - ';
+		$this->data['titlePageTwo'] = 'Home';
+    }
+    
     public function index()
     {
         /* $model = new PostsModel();
@@ -37,22 +44,23 @@ class Dashboard extends BaseController
             ORDER BY p.created_at DESC"
         );
         $result = $query->getResult();
-        $data['lastPost'] = $result;
+        $this->data['lastPost'] = $result;
 
-        return loadViews("index", $data);
+        return loadViews("index", $this->data);
     }
 
     public function uploadPost()
     {
+        $this->data['titlePageTwo'] = 'Postear';
         /**
          * Cargar categorias
          */
         $model = new CategoriesModel();
-        $data['categories'] = $model->findAll();
+        $this->data['categories'] = $model->findAll();
 
         $postModel = new PostsModel();
 
-        helper(["url", "form"]);
+        
         $validation = \Config\Services::validation();
 
         $validation->setRules(
@@ -83,7 +91,7 @@ class Dashboard extends BaseController
             if (!$validation->withRequest($this->request)->run()) {
                 //form validation error
                 $errors = $validation->getErrors();
-                $data['error'] = $errors;
+                $this->data['error'] = $errors;
                 dd($errors);
             } else {
                 $file = $this->request->getFile("banner");
@@ -99,29 +107,30 @@ class Dashboard extends BaseController
                     // dd($_POST);
 
                     $postModel->insert($_POST);
-                    $data['succes'] = "Su post se ha agregado correctamente";
+                    $this->data['succes'] = "Su post se ha agregado correctamente";
                     // unset($_POST);
                     // header('Location:' . base_url() . '/dashboard/uploadPost');
                 } else {
-                    $data['error'] = "Archivo no válido";
+                    $this->data['error'] = "Archivo no válido";
                 }
             }
 
             /* $postModel->insert($_POST); */
         }
-        return loadViews("uploadPost", $data);
+        return loadViews("uploadPost", $this->data);
     }
 
     public function category($id = null)
     {
+        $this->data['titlePageTwo'] = 'Categorias';
         $categoryModel = new CategoriesModel();
         $postModel = new PostsModel();
-        $data['category'] = $categoryModel->where("id", $id)->findAll();
-        $data['posts']  = $postModel->where("category", $id)->findAll();
+        $this->data['category'] = $categoryModel->where("id", $id)->findAll();
+        $this->data['posts']  = $postModel->where("category", $id)->findAll();
 
         // dd($data['posts']);
 
-        return loadViews("category", $data);
+        return loadViews("category", $this->data);
     }
 
     public function add_newsletter()
@@ -144,11 +153,12 @@ class Dashboard extends BaseController
 
     public function post($slug = null, $id = null)
     {
+        $this->data['titlePageTwo'] = 'Post';
         if ($slug && $id) {
 
             $db = \Config\Database::connect();
             $commentsModel = new CommentsModel();
-            $data['comments'] = $commentsModel->where("post_id", $id)->findAll();
+            $this->data['comments'] = $commentsModel->where("post_id", $id)->findAll();
             // dd($data);
 
             if ($_POST) {
@@ -179,7 +189,7 @@ class Dashboard extends BaseController
 
                 if (!$validation->withRequest($this->request)->run()) {
                     echo "error!!!";
-                    $data["error"] = "true";
+                    $this->data["error"] = "true";
                 } else {
                     $arrayComment = [
                         "post_id" => $id,
@@ -191,17 +201,17 @@ class Dashboard extends BaseController
 
                     $commentsModel->insert($arrayComment);
 
-                    $data['succes'] = "Su comentario ha sido guardado";
+                    $this->data['succes'] = "Su comentario ha sido guardado";
                 }
             }
 
             $postModel = new PostsModel();
             $posts = $postModel->where("id", $id)->findAll();
-            $data['post'] = $posts;
+            $this->data['post'] = $posts;
             $categoryModel = new CategoriesModel();
-            $data['categories'] = $categoryModel->where("id", $posts[0]['category'])->findAll();
+            $this->data['categories'] = $categoryModel->where("id", $posts[0]['category'])->findAll();
             $userModel = new UsersModel();
-            $data['user'] = $userModel->where("id", $posts[0]['id_user'])->first();
+            $this->data['user'] = $userModel->where("id", $posts[0]['id_user'])->first();
 
             $query = $db->query(
                 "UPDATE posts SET show_home = show_home + 1 WHERE id  = $id"
@@ -209,7 +219,23 @@ class Dashboard extends BaseController
 
 
 
-            return loadViews("post", $data);
+            return loadViews("post", $this->data);
         }
+    }
+
+    public function search()
+    {
+        $postModel = new PostsModel();
+        $request = \Config\Services::request();
+        $keyword = $request->getPostGet('keywords');
+        $db = \Config\Database::connect();
+        $query = $db->query(
+            "SELECT * FROM appCode_udemy.posts p WHERE p.title LIKE '%$keyword%'"
+        );
+        $result = $query->getResult();
+        $this->data['result'] = $result;
+        $this->data['keyword'] = $keyword;
+// dd($this->data);
+        return loadViews("result", $this->data);
     }
 }

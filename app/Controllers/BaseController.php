@@ -35,6 +35,11 @@ class BaseController extends Controller
 	public $session = null;
 
 	/**
+	 * Array data para enviar datos a vistas, entre ellos Title
+	 */
+	public $data = [];
+
+	/**
 	 * Constructor.
 	 */
 	public function initController(\CodeIgniter\HTTP\RequestInterface $request, \CodeIgniter\HTTP\ResponseInterface $response, \Psr\Log\LoggerInterface $logger)

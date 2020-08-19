@@ -9,30 +9,31 @@ class UserController extends BaseController
 	public function __construct()
 	{
 		helper('form');
+		$this->data['titlePageOne'] = 'WSmith - ';
+		$this->data['titlePageTwo'] = 'Usuarios';
 	}
 
 	public function index()
 	{
-		// dd($this->session->get());
+		
 		$userModel = new UsersModel();
-		$data['users'] = $userModel->findAll();
+		$this->data['users'] = $userModel->findAll();
 
 		if ($this->session->get('info')) {
 			$session = $this->session->get('info');
 			if ((strcmp($session['type'], 'error')) == 0) {
-				$data['messageData'] = [
+				$this->data['messageData'] = [
 					'type' => 'error',
 					'message' => $session['message']
 				];
 			} elseif ((strcmp($session['type'], 'success')) == 0) {
-				$data['messageData'] = [
+				$this->data['messageData'] = [
 					'type' => 'success',
 					'message' => $session['message']
 				];
 			}
 		}
-		// dd($data);
-		return loadViews("User/index", $data);
+		return loadViews("User/index", $this->data);
 	}
 
 	public function destroy()
@@ -42,30 +43,32 @@ class UserController extends BaseController
 
 	public function create()
 	{
-		$data['status'] = 'create';
+		$this->data['titlePageOne'] = 'Usuario';
+		$this->data['titlePageTwo'] = ' - Crear';
+
+		$this->data['status'] = 'create';
 		if ($this->session->get('info')) {
 			$session = $this->session->get('info');
 			if ((strcmp($session['type'], 'error')) == 0) {
-				$data['messageData'] = [
+				$this->data['messageData'] = [
 					'type' => 'error',
 					'message' => $session['message']
 				];
 			} elseif ((strcmp($session['type'], 'success')) == 0) {
-				$data['messageData'] = [
+				$this->data['messageData'] = [
 					'type' => 'success',
 					'message' => $session['message']
 				];
 			}
 		}
-		// dd($data, $this->session->get());
-		return loadViews('User/create', $data);
+		return loadViews('User/create', $this->data);
 	}
 
 	public function save()
 	{
 		$userModel = new UsersModel();
 		$request = \Config\Services::request();
-		$data = array(
+		$this->data = array(
 			'name' => $request->getPostGet('name'),
 			'email' => $request->getPostGet('email'),
 			'bio' => $request->getPostGet('bio'),
@@ -76,7 +79,7 @@ class UserController extends BaseController
 		);
 
 
-		if ($userModel->save($data)) {
+		if ($userModel->save($this->data)) {
 			$info['info'] = [
 				'type' => 'success',
 				'message' => ['Bienvenido/a ' . $request->getPostGet('name')]
@@ -97,11 +100,15 @@ class UserController extends BaseController
 
 	public function edit($id)
 	{
+		$this->data['titlePageOne'] = 'Usuario';
+		$this->data['titlePageTwo'] = ' - Editar';
+
 		$userModel = new UsersModel();
 		$request = \Config\Services::request();
 		$user = $userModel->find($id);
-		$data = array('user' => $user);
-		return loadViews('User/edit', $data);
+		// $data = array('user' => $user);
+		$this->data['user'] = $user;
+		return loadViews('User/edit', $this->data);
 	}
 
 	public function update()

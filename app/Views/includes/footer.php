@@ -107,7 +107,7 @@
      $("#newsletter-send").click(function() {
          console.log("Se ha clickeado")
          var inputemail = $("#newsletter-input").val()
-         $.post("<?php base_url() ?>/Dashboard/add_newsletter", {email:inputemail}).done(function(data) {
+         $.post("<?php base_url() ?>/addNewsLetter", {email:inputemail}).done(function(data) {
              console.log("Enviando Post")
              console.log(data)
              $(".subscribe-message").html(data)

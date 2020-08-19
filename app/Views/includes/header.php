@@ -25,7 +25,7 @@
     <!--- basic page needs
     ================================================== -->
     <meta charset="utf-8">
-    <title>Wordsmith</title>
+    <title><?= $titlePageOne, $titlePageTwo ?></title>
     <meta name="description" content="">
     <meta name="author" content="">
 
@@ -68,7 +68,7 @@
     <header class="s-header header">
 
         <div class="header__logo">
-            <a class="logo" href="<?= base_url() .'/dashboard' ?>">
+            <a class="logo" href="<?= base_url() . '/' ?>">
                 <img src="<?= base_url() ?>/assets/images/logo.svg" alt="Homepage">
             </a>
         </div> <!-- end header__logo -->
@@ -76,10 +76,10 @@
         <a class="header__search-trigger" href="#0"></a>
         <div class="header__search">
 
-            <form role="search" method="get" class="header__search-form" action="#">
+            <form role="search" method="get" class="header__search-form" action="dashboard/search">
                 <label>
                     <span class="hide-content">Search for:</span>
-                    <input type="search" class="search-field" placeholder="Type Keywords" value="" name="s" title="Search for:" autocomplete="off">
+                    <input type="search" class="search-field" placeholder="Type Keywords" value="" name="keywords" title="Search for:" autocomplete="off">
                 </label>
                 <input type="submit" class="search-submit" value="Search">
             </form>
@@ -94,7 +94,7 @@
             <h2 class="header__nav-heading h6">Navigate to</h2>
 
             <ul class="header__nav">
-                <li class="current"><a href="<?= base_url().'/dashboard' ?>" title="">Home</a></li>
+                <li class="current"><a href="<?= base_url() . '/' ?>" title="">Home</a></li>
                 <li class="has-children">
                     <a href="#0" title="">Categorias</a>
                     <ul class="sub-menu">
@@ -112,7 +112,7 @@
                     </ul>
                 </li>
                 <li class="">
-                    <a href="<?= base_url() ?>/dashboard/uploadPost" title="">Postear</a>
+                    <a href="<?= base_url() ?>/post/create" title="">Postear</a>
                 </li>
                 <li class="">
                     <a href="<?= base_url() ?>/user" title="">Usuario</a>

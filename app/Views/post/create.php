@@ -30,7 +30,7 @@
                 </div>
 
             </div>
-            <form action="" method="post" enctype="multipart/form-data">
+            <form action="/post/save" method="post" enctype="multipart/form-data">
                 <label for="sampleTitle">Ingresa el titulo del Post</label>
                 <input class="full-width" placeholder="Titulo" type="text" name="title">
                 <label for="sampleIntro">Ingresa una pequeña introducción del Post</label>

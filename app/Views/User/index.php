@@ -21,8 +21,8 @@
 
 
                 <h3>Usuarios</h3>
-                <p>Be sure to use properly formed table markup with <code>&lt;thead&gt;</code> and <code>&lt;tbody&gt;</code> when building a <code>table</code>.</p>
-                <a href="<?= base_url() . '/user/create' ?>">Crear Usuario</a>
+                <!-- <p>Be sure to use properly formed table markup with <code>&lt;thead&gt;</code> and <code>&lt;tbody&gt;</code> when building a <code>table</code>.</p> -->
+                <a class="btn btn--stroke" role="button" href="<?= base_url() . '/user/create' ?>">Crear Usuario</a>
                 <div class="table-responsive">
 
                     <table>
@@ -49,8 +49,8 @@
                                 // echo '<td>' . $value['deleted_at'] . '</td>';
                                 echo '<td>';
                             ?>
-                                <a href="/user/edit/<?= $value['id'] ?>" class="btn btn-warning" role="button"><i class="material-icons">edit</i></a>
-                                <a href="/user/delete/<?= $value['id'] ?>" class="btn btn-danger" role="button"><i class="material-icons">delete</i></a>
+                                <a href="/user/edit/<?= $value['id'] ?>" class="btn btn" role="button"><i class="material-icons">edit</i></a>
+                                <a href="/user/delete/<?= $value['id'] ?>" class="btn btn--primary" role="button"><i class="material-icons">delete</i></a>
                             <?php
                                 echo '</td>';
 

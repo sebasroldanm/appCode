@@ -16,6 +16,7 @@
                         "SELECT p.* , u.name, u.username 
                         FROM posts p
                         INNER JOIN users u 
+                        ON p.id_user = u.id 
                         WHERE p.show_home != 0 
                         ORDER BY p.show_home DESC LIMIT 10"
                     );
