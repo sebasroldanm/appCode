@@ -35,19 +35,22 @@ class HomeController extends BaseController
 
 	public function addNewsLetter()
 	{
-		if (isset($_POST['email'])) {
-            $newsLetterModel = new NewsletterModel();
-            $_POST['add_at'] = date('Y-m-d');
-            $emails = $newsLetterModel->where("email", $_POST['email'])->findAll();
-
-            if ($emails) {
-                echo "Email ya existe";
-            } else {
-                $id = $newsLetterModel->insert($_POST);
-                echo "Bienvenido a la suscripción de información";
+        $newsLetterModel = new NewsletterModel();
+        $request = \Config\Services::request();
+        $email = $request->getPostGet('email');
+		if (isset($email)) {
+            $this->data = array(
+                'email' => $email,
+                'add_at' => date('Y-m-d')
+            );
+            if($newsLetterModel->save($this->data)){
+                echo "Ahora haces parte de nosostros, te enviaremosnuestros ultimos posts";
             }
-        } else {
-            echo "Error";
+            else{
+                foreach ($newsLetterModel->errors() as $value) {
+                    echo $value;
+                }
+            }
         }
 	}
 

@@ -19,19 +19,13 @@ class Newsletter extends Migration
 				'type'				=> 'TEXT',
 				'null'				=> true,
 			],
-			'deleted' 			=> [
-				'type'           	=> 'INT',
-				'constraint'     	=> 2,
-				'null'           	=> true,
-			],
 			'add_at' 			=> [
 				'type'           	=> 'DATE',
 				'null'           	=> false,
 			],
 			'deleted_at' 			=> [
 				'type'           	=> 'DATE',
-				'null'           	=> false,
-				'default'			=> '0',
+				'null'           	=> false
 			],
 		]);
 		$this->forge->addKey('id', true);

@@ -22,7 +22,7 @@
 
                  <p>Sit vel delectus amet officiis repudiandae est voluptatem. Tempora maxime provident nisi et fuga et enim exercitationem ipsam. Culpa consequatur occaecati.</p>
 
-                 <div class="subscribe-form">
+                 <!-- <div class="subscribe-form">
                      <form method="POST" id="newstter_form" class="group" novalidate="true">
 
                          <input type="email" style="color: white;" value="" name="email" class="email" id="newsletter-input" placeholder="Email Address" required="">
@@ -30,6 +30,19 @@
                          <div class="btn" id="newsletter-send">Send</div>
 
                          <label for="mc-email" style="color: white;" class="subscribe-message"></label>
+
+                     </form>
+                 </div> -->
+
+                 <div class="subscribe-form">
+                     <form method="POST" id="mc-form" class="group" novalidate="true">
+
+                         <input type="email" value="" name="email" class="email" id="mc-email" placeholder="Email Address" required="">
+
+                         <!-- <input type="submit" name="subscribe" value="Send"> -->
+                         <div class="btn" type="submit" id="newsletter-send">Subscibirme</div>
+
+                         <label for="mc-email" class="subscribe-message"></label>
 
                      </form>
                  </div>
@@ -106,7 +119,7 @@
  <script type="text/javascript">
      $("#newsletter-send").click(function() {
          console.log("Se ha clickeado")
-         var inputemail = $("#newsletter-input").val()
+         var inputemail = $("#mc-email").val()
          $.post("<?php base_url() ?>/addNewsLetter", {email:inputemail}).done(function(data) {
              console.log("Enviando Post")
              console.log(data)

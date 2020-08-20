@@ -6,13 +6,13 @@
 (function($) {
 
     "use strict";
-    
-    var cfg = {
-        scrollDuration : 800, // smoothscroll duration
-        mailChimpURL   : 'https://facebook.us8.list-manage.com/subscribe/post?u=cdb7b577e41181934ed6a6a44&amp;id=e6957d85dc'   // mailchimp url
-    },
 
-    $WIN = $(window);
+    var cfg = {
+            scrollDuration: 800, // smoothscroll duration
+            mailChimpURL: 'https://facebook.us8.list-manage.com/subscribe/post?u=cdb7b577e41181934ed6a6a44&amp;id=e6957d85dc' // mailchimp url
+        },
+
+        $WIN = $(window);
 
     // Add the User Agent to the <html>
     // will be used for IE10 detection (Mozilla/5.0 (compatible; MSIE 10.0; Windows NT 6.2; Trident/6.0))
@@ -20,10 +20,10 @@
     doc.setAttribute('data-useragent', navigator.userAgent);
 
 
-   /* Preloader
-    * -------------------------------------------------- */
+    /* Preloader
+     * -------------------------------------------------- */
     var clPreloader = function() {
-        
+
         $("html").addClass('ss-preload');
 
         $WIN.on('load', function() {
@@ -35,26 +35,26 @@
             $("#loader").fadeOut("slow", function() {
                 // will fade out the whole DIV that covers the website.
                 $("#preloader").delay(300).fadeOut("slow");
-            }); 
-       
+            });
+
         });
     };
 
 
-   /* pretty print
-    * -------------------------------------------------- */ 
+    /* pretty print
+     * -------------------------------------------------- */
     var clPrettyPrint = function() {
         $('pre').addClass('prettyprint');
-        $( document ).ready(function() {
+        $(document).ready(function() {
             prettyPrint();
         });
     };
 
 
-   /* search
-    * ------------------------------------------------------ */
+    /* search
+     * ------------------------------------------------------ */
     var clSearch = function() {
-            
+
         var searchWrap = $('.header__search'),
             searchField = searchWrap.find('.search-field'),
             closeSearch = searchWrap.find('.header__overlay-close'),
@@ -63,57 +63,57 @@
 
 
         searchTrigger.on('click', function(e) {
-            
+
             e.preventDefault();
             e.stopPropagation();
-        
+
             var $this = $(this);
-        
+
             siteBody.addClass('search-is-visible');
-            setTimeout(function(){
+            setTimeout(function() {
                 searchWrap.find('.search-field').focus();
             }, 100);
-        
+
         });
 
         closeSearch.on('click', function(e) {
 
             var $this = $(this);
-        
-            e.stopPropagation(); 
-        
-            if(siteBody.hasClass('search-is-visible')){
+
+            e.stopPropagation();
+
+            if (siteBody.hasClass('search-is-visible')) {
                 siteBody.removeClass('search-is-visible');
-                setTimeout(function(){
+                setTimeout(function() {
                     searchWrap.find('.search-field').blur();
                 }, 100);
             }
         });
 
-        searchWrap.on('click',  function(e) {
-            if( !$(e.target).is('.search-field') ) {
+        searchWrap.on('click', function(e) {
+            if (!$(e.target).is('.search-field')) {
                 closeSearch.trigger('click');
             }
         });
-            
-        searchField.on('click', function(e){
+
+        searchField.on('click', function(e) {
             e.stopPropagation();
         });
-            
-        searchField.attr({placeholder: 'Type Keywords', autocomplete: 'off'});
+
+        searchField.attr({ placeholder: 'Type Keywords', autocomplete: 'off' });
 
     };
 
 
-   /* Mobile Menu
-    * ---------------------------------------------------- */ 
-   var clMobileMenu = function() {
+    /* Mobile Menu
+     * ---------------------------------------------------- */
+    var clMobileMenu = function() {
 
         var navWrap = $('.header__nav-wrap'),
             closeNavWrap = navWrap.find('.header__overlay-close'),
             menuToggle = $('.header__toggle-menu'),
             siteBody = $('body');
-        
+
         menuToggle.on('click', function(e) {
             var $this = $(this);
 
@@ -123,20 +123,20 @@
         });
 
         closeNavWrap.on('click', function(e) {
-            
+
             var $this = $(this);
-            
+
             e.preventDefault();
             e.stopPropagation();
-        
-            if(siteBody.hasClass('nav-wrap-is-visible')) {
+
+            if (siteBody.hasClass('nav-wrap-is-visible')) {
                 siteBody.removeClass('nav-wrap-is-visible');
             }
         });
 
         // open (or close) submenu items in mobile view menu. 
         // close all the other open submenu items.
-        $('.header__nav .has-children').children('a').on('click', function (e) {
+        $('.header__nav .has-children').children('a').on('click', function(e) {
             e.preventDefault();
 
             if ($(".close-mobile-menu").is(":visible") == true) {
@@ -157,10 +157,10 @@
     };
 
 
-   /* slick slider
-    * ------------------------------------------------------ */
+    /* slick slider
+     * ------------------------------------------------------ */
     var clSlickSlider = function() {
-        
+
         $('.featured-slider').slick({
             arrows: true,
             dots: true,
@@ -171,8 +171,7 @@
             centerPadding: '10%',
             pauseOnFocus: false,
             autoplaySpeed: 1500,
-            responsive: [
-                {
+            responsive: [{
                     breakpoint: 1400,
                     settings: {
                         arrows: false,
@@ -198,20 +197,20 @@
     };
 
 
-   /* Smooth Scrolling
-    * ------------------------------------------------------ */
+    /* Smooth Scrolling
+     * ------------------------------------------------------ */
     var clSmoothScroll = function() {
-        
-        $('.smoothscroll').on('click', function (e) {
+
+        $('.smoothscroll').on('click', function(e) {
             var target = this.hash,
-            $target    = $(target);
-            
-                e.preventDefault();
-                e.stopPropagation();
+                $target = $(target);
+
+            e.preventDefault();
+            e.stopPropagation();
 
             $('html, body').stop().animate({
                 'scrollTop': $target.offset().top
-            }, cfg.scrollDuration, 'swing').promise().done(function () {
+            }, cfg.scrollDuration, 'swing').promise().done(function() {
 
                 // check if menu is open
                 if ($('body').hasClass('menu-is-open')) {
@@ -225,22 +224,22 @@
     };
 
 
-   /* Alert Boxes
-    * ------------------------------------------------------ */
+    /* Alert Boxes
+     * ------------------------------------------------------ */
     var clAlertBoxes = function() {
 
         $('.alert-box').on('click', '.alert-box__close', function() {
             $(this).parent().fadeOut(500);
-        }); 
+        });
 
     };
 
 
-   /* Animate On Scroll
-    * ------------------------------------------------------ */
+    /* Animate On Scroll
+     * ------------------------------------------------------ */
     var clAOS = function() {
-        
-        AOS.init( {
+
+        AOS.init({
             offset: 200,
             duration: 600,
             easing: 'ease-in-sine',
@@ -252,10 +251,10 @@
     };
 
 
-   /* AjaxChimp
-    * ------------------------------------------------------ */
+    /* AjaxChimp
+     * ------------------------------------------------------ */
     var clAjaxChimp = function() {
-        
+
         $('#mc-form').ajaxChimp({
             language: 'es',
             url: cfg.mailChimpURL
@@ -274,22 +273,22 @@
 
         $.ajaxChimp.translations.es = {
             'submit': 'Submitting...',
-            0: '<i class="fas fa-check"></i> We have sent you a confirmation email',
+            0: '<i class="fas fa-check"></i>Ahora hace parte de nosostros, te enviaremosnuestros ultimos posts',
             1: '<i class="fas fa-exclamation-circle"></i> You must enter a valid e-mail address.',
             2: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.',
             3: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.',
             4: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.',
             5: '<i class="fas fa-exclamation-circle"></i> E-mail address is not valid.'
-        } 
+        }
 
     };
 
 
-   /* Back to Top
-    * ------------------------------------------------------ */
+    /* Back to Top
+     * ------------------------------------------------------ */
     var clBackToTop = function() {
-        
-        var pxShow      = 500,
+
+        var pxShow = 500,
             goTopButton = $(".go-top")
 
         // Show or hide the button
@@ -297,7 +296,7 @@
 
         $(window).on('scroll', function() {
             if ($(window).scrollTop() >= pxShow) {
-                if(!goTopButton.hasClass('link-is-visible')) goTopButton.addClass('link-is-visible')
+                if (!goTopButton.hasClass('link-is-visible')) goTopButton.addClass('link-is-visible')
             } else {
                 goTopButton.removeClass('link-is-visible')
             }
@@ -306,29 +305,29 @@
 
 
     /* Map
-    * ------------------------------------------------------ */
+     * ------------------------------------------------------ */
 
     // add custom buttons for the zoom-in/zoom-out on the map
     var clCustomZoomControl = function(controlDiv, map) {
-            
+
         // grap the zoom elements from the DOM and insert them in the map 
-        var controlUIzoomIn= document.getElementById('map-zoom-in'),
-                controlUIzoomOut= document.getElementById('map-zoom-out');
+        var controlUIzoomIn = document.getElementById('map-zoom-in'),
+            controlUIzoomOut = document.getElementById('map-zoom-out');
 
         controlDiv.appendChild(controlUIzoomIn);
         controlDiv.appendChild(controlUIzoomOut);
 
         // Setup the click event listeners and zoom-in or out according to the clicked element
         google.maps.event.addDomListener(controlUIzoomIn, 'click', function() {
-            map.setZoom(map.getZoom()+1)
+            map.setZoom(map.getZoom() + 1)
         });
         google.maps.event.addDomListener(controlUIzoomOut, 'click', function() {
-            map.setZoom(map.getZoom()-1)
+            map.setZoom(map.getZoom() - 1)
         });
-            
+
     };
 
-	var clGoogleMap = function() { 
+    var clGoogleMap = function() {
 
         if (typeof google === 'object' && typeof google.maps === 'object') {
 
@@ -347,26 +346,25 @@
             $("#map-zoom-in, #map-zoom-out").show();
 
             // marker url
-            if ( winWidth > 480 ) {
+            if (winWidth > 480) {
                 marker_url = 'images/icon-location@2x.png';
             } else {
                 marker_url = 'images/icon-location.png';
             }
 
             // map style
-            var style = [ 
-                {
+            var style = [{
                     // set saturation for the labels on the map
                     elementType: "labels",
                     stylers: [
                         { saturation: saturation_value }
                     ]
-                },  
-                {	// poi stands for point of interest - don't show these lables on the map 
+                },
+                { // poi stands for point of interest - don't show these lables on the map 
                     featureType: "poi",
                     elementType: "labels",
                     stylers: [
-                        {visibility: "off"}
+                        { visibility: "off" }
                     ]
                 },
                 {
@@ -376,22 +374,22 @@
                     stylers: [
                         { visibility: "off" }
                     ]
-                }, 
-                { 	
+                },
+                {
                     // don't show local road lables on the map
                     featureType: "road.local",
                     elementType: "labels.icon",
                     stylers: [
-                        { visibility: "off" } 
-                    ] 
+                        { visibility: "off" }
+                    ]
                 },
-                { 
+                {
                     // don't show arterial road lables on the map
                     featureType: "road.arterial",
                     elementType: "labels.icon",
                     stylers: [
                         { visibility: "off" }
-                    ] 
+                    ]
                 },
                 {
                     // don't show road lables on the map
@@ -400,25 +398,25 @@
                     stylers: [
                         { visibility: "off" }
                     ]
-                }, 
+                },
                 // style different elements on the map
-                { 
-                    featureType: "transit", 
-                    elementType: "geometry.fill", 
+                {
+                    featureType: "transit",
+                    elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
-                }, 
+                },
                 {
                     featureType: "poi",
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -427,8 +425,8 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -437,8 +435,8 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -447,8 +445,8 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -457,8 +455,8 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -467,8 +465,8 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -477,8 +475,8 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -486,19 +484,19 @@
                     featureType: "landscape",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
-                    
+
                 },
                 {
                     featureType: "road",
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 },
@@ -507,23 +505,23 @@
                     elementType: "geometry.fill",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
-                }, 
+                },
                 {
                     featureType: "water",
                     elementType: "geometry",
                     stylers: [
                         { hue: main_color },
-                        { visibility: "on" }, 
-                        { lightness: brightness_value }, 
+                        { visibility: "on" },
+                        { lightness: brightness_value },
                         { saturation: saturation_value }
                     ]
                 }
             ];
-                
+
             // map options
             var map_options = {
 
@@ -537,7 +535,7 @@
                 scrollwheel: false,
                 styles: style
 
-                };
+            };
 
             // inizialize the map
             var map = new google.maps.Map(document.getElementById('map-container'), map_options);
@@ -545,26 +543,26 @@
             // add a custom marker to the map
             var marker = new google.maps.Marker({
 
-                    position: new google.maps.LatLng(latitude, longitude),
-                    map: map,
-                    visible: true,
-                    icon: marker_url
-                    
-                });
-            
+                position: new google.maps.LatLng(latitude, longitude),
+                map: map,
+                visible: true,
+                icon: marker_url
+
+            });
+
             var zoomControlDiv = document.createElement('div');
             var zoomControl = new clCustomZoomControl(zoomControlDiv, map);
 
             // insert the zoom div on the top right of the map
             map.controls[google.maps.ControlPosition.TOP_RIGHT].push(zoomControlDiv);
 
-        } 
+        }
 
     };
 
 
-   /* Initialize
-    * ------------------------------------------------------ */
+    /* Initialize
+     * ------------------------------------------------------ */
     (function clInit() {
 
         clPreloader();
