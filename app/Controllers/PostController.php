@@ -36,12 +36,17 @@ class PostController extends BaseController
 			$file->move(ROOTPATH . "public/uploads", $filename);
 			$this->data = array(
 				'banner' => $filename,
-				// 'title' => $request->getPostGet('title'),
+				'title' => $request->getPostGet('title'),
+				'intro' => $request->getPostGet('intro'),
+				'content' => $request->getPostGet('content'),
+				'category' => $request->getPostGet('category'),
+				'tags' => $request->getPostGet('tags'),
 				'slug' => url_title($request->getPostGet('title')),
 				'create_at' => date('Y-m-d H:i:s'),
 				'show_home' => 0,
 				'id_user' => 1
 			);
+
 
 			if ($modelPost->save($this->data)) {
 				$info['info'] = [
@@ -99,7 +104,7 @@ class PostController extends BaseController
 			];
 			$this->session->set($info);
 		}
-		// dd($this->data);
+		
 		return loadViews('post/list', $this->data);
 	} //list
 

@@ -38,14 +38,21 @@ $routes->post('/addNewsLetter', 'HomeController::addNewsLetter');
 $routes->get('/destroy', 'HomeController::destroy');
 
 /**
+ * Rutas de Category
+ */
+$routes->get('/category/(:any)', 'CategoryController::list/$1');
+
+/**
  * Rutas del Post
  */
+
 $routes->get('/post/create', 'PostController::create');
 $routes->post('/post/save', 'PostController::save');
 $routes->get('/post/(:any)/(:any)', 'PostController::list/$1/$2');
 /**
  * Rutas de Usuarios
  */
+
 $routes->get('/user', 'UserController::index');
 $routes->get('/user/index', 'UserController::index');
 $routes->get('/user/create', 'UserController::create');

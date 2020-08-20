@@ -105,7 +105,7 @@
                         $result = $query->getResult();
 
                         foreach ($result as $value) {
-                            echo '<li><a href="' . base_url() . '/dashboard/category/' . $value->id . '">' . $value->name . '</a></li>';
+                            echo '<li><a href="' . base_url() . '/category/' . $value->id . '">' . $value->name . '</a></li>';
                         }
                         ?>
 
