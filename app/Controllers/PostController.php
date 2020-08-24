@@ -4,6 +4,7 @@ namespace App\Controllers;
 
 use App\Models\CategoriesModel;
 use App\Models\CommentsModel;
+use App\Models\NewsletterModel;
 use App\Models\PostsModel;
 use App\Models\UsersModel;
 
@@ -56,12 +57,34 @@ class PostController extends BaseController
 				$this->session->set($info);
 
 				$db = \Config\Database::connect();
+				$emails = [];
+
 				$query = $db->query(
-					"SELECT id, slug FROM appCode_udemy.posts p 
-				ORDER BY id DESC LIMIT 1"
+					"SELECT id, slug 
+					FROM appCode_udemy.posts p 
+					ORDER BY id DESC LIMIT 1"
 				);
 				$result = $query->getResult();
 				$url = $result[0]->slug . '/' . $result[0]->id;
+
+				$queryEmails = $db->query(
+					"SELECT email FROM newsletter"
+				);
+				$resultEmails = $queryEmails->getResultArray();
+				foreach ($resultEmails as $value) {
+					array_push($emails, $value['email']);
+				}
+
+				$this->data = array(
+					'title' => $request->getPostGet('title'),
+					'intro' => $request->getPostGet('intro'),
+					'url' => base_url() . '/post/' . $url,
+					'setFromMail' => 'nesletter@wordsimth.com',
+					'setFromMsg' => 'News Letters for WordSmith',
+					'setSubject' => 'News Letter !!!',
+					'to' => $emails
+				);
+				$this->sendMail('newsletter', $this->data);
 
 				return redirect()->to($url);
 			} else {
@@ -104,7 +127,7 @@ class PostController extends BaseController
 			];
 			$this->session->set($info);
 		}
-		
+
 		return loadViews('post/list', $this->data);
 	} //list
 

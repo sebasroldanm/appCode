@@ -59,4 +59,19 @@ class BaseController extends Controller
 		// $this->session = \Config\Services::session();
 	}
 
+	public function sendMail($type, $data)
+	{
+		$email = \Config\Services::email();
+
+		$email->setFrom($data['setFromMail'], $data['setFromMsg']);
+		$email->setTo($data['to']);
+		// $email->setCC('another@another-example.com');
+		// $email->setBCC('them@their-example.com');
+
+		$email->setSubject($data['setSubject']);
+		$viewEmail = view('Emails/' . $type, $data);
+		$email->setMessage($viewEmail);
+
+		$email->send();
+	}
 }
